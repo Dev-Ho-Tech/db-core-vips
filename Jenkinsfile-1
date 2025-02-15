@@ -14,5 +14,13 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image for your application
+                    sh 'docker build -t my-app-image .'
+                }
+            }
+        }
   }
 }
