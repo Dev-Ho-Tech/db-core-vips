@@ -1,12 +1,18 @@
 pipeline {
-  agent {
-    docker { image 'liquibase/liquibase:4.4.2' }
-  }
-  stages {
-    stage('Test') {
-      steps {
-        sh 'liquibase --version'
-      }
+  agent any
+    environment {
+        // Define environment variables
+        DB_URL = 'jdbc:postgresql://142.93.246.123:5432/core_vips_dev'
+        DB_USERNAME = 'admin'
+        DB_PASSWORD = 'vipsadmin'
+        LIQUIBASE_CHANGELOG = 'my_app-wrapper.xml' // Your Liquibase changelog file
     }
+  stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from your repository
+                checkout scm
+            }
+        }
   }
 }
