@@ -1,12 +1,42 @@
-pipeline {
-  agent {
-    docker { image 'liquibase/liquibase:4.4.2' }
-  }
-  stages {
-    stage('Test') {
-      steps {
-        sh 'liquibase --version'
-      }
+ipeline {
+    agent {
+        docker { image 'liquibase/liquibase:4.4.2' }
     }
-  }
+    environment {
+        // Define the PostgreSQL connection details
+        DB_HOST = '142.93.246.123'
+        DB_PORT = '5432'  // default port for PostgreSQL
+        DB_NAME = 'core_vips_dev'
+        DB_USER = 'admin'
+        DB_PASSWORD = 'vipsadmin'
+    }
+    stages {
+        stage('Run Liquibase Migrations') {
+            steps {
+                script {
+                    // Run Liquibase command to update the database
+                    sh """
+                    liquibase --url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME} \
+                        --username=${DB_USER} \
+                        --password=${DB_PASSWORD} \
+                        --driver=org.postgresql.Driver \
+                        --classpath=/liquibase/liquibase.jar \
+                        --changeLogFile=db/changelog/db.changelog-master.xml \
+                        update
+                    """
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Liquibase migration process completed.'
+        }
+        success {
+            echo 'Database migrations applied successfully.'
+        }
+        failure {
+            echo 'Liquibase migration failed.'
+        }
+    }
 }
