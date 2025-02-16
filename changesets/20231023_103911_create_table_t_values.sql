@@ -13,7 +13,7 @@ create table t_values
     created_date     timestamp    not null default now(),
     updated_date     timestamp    null,
     user_created     varchar(50)  not null,
-    user_updated     varchar(50)  null
+    user_updated     varchar(150)  null
 );
 
 alter table t_values
