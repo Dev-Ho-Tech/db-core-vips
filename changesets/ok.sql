@@ -23,5 +23,5 @@ create table t_control_disputes_files
     user_updated varchar(50) not null,
     created_date timestamp not null default now(),
     updated_date timestamp,
-    user_created varchar(50)
+    user_created varchar(150)
 );
