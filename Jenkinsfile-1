@@ -1,44 +1,12 @@
 pipeline {
-  agent any
-    environment {
-        // Define environment variables
-        DB_URL = 'jdbc:postgresql://142.93.246.123:5432/core_vips_dev'
-        DB_USERNAME = 'admin'
-        DB_PASSWORD = 'vipsadmin'
-        LIQUIBASE_CHANGELOG = 'my_app-wrapper.xml' // Your Liquibase changelog file
-        LIQUIBASE_HOME = "/opt/liquibase"
-    }
+  agent {
+    docker { image 'liquibase/liquibase:4.4.2' }
+  }
   stages {
-        stage('Checkout') {
-            steps {
-                // Checkout code from your repository
-                git branch: 'main', url: 'https://github.com/Dev-Ho-Tech/db-core-vips.git'
-            }
-        }
-        stage('Setup Liquibase') {
-            steps {
-                script {
-                    // Optional: Install Liquibase if it's not already available
-                    // You may skip this if Liquibase is already available on your Jenkins agents.
-                    sh """
-                    if ! command -v liquibase &> /dev/null; then
-                        echo "Liquibase not found. Installing..."
-                        curl -L https://github.com/liquibase/liquibase/releases/download/v4.16.0/liquibase-4.16.0.tar.gz -o liquibase.tar.gz
-                        tar -xvf liquibase.tar.gz -C /opt
-                    fi
-                    """
-                }
-            }
-        }
-        stage('Run Liquibase Migration') {
-            steps {
-                script {
-                    // Running the Liquibase migration command using the environment variables
-                    sh """
-                    ${LIQUIBASE_HOME}/liquibase --url=${DB_URL} --username=${DB_USERNAME} --password=${DB_PASSWORD} --changeLogFile=${LIQUIBASE_CHANGELOG} update
-                    """
-                }
-            }
-        }
+    stage('Test') {
+      steps {
+        sh 'liquibase --version'
+      }
+    }
   }
 }
