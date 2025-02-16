@@ -21,7 +21,7 @@ ipeline {
                         --password=${DB_PASSWORD} \
                         --driver=org.postgresql.Driver \
                         --classpath=/liquibase/liquibase.jar \
-                        --changeLogFile=db/changelog/db.changelog-master.xml \
+                        --changeLogFile=my_app-wrapper.xml \
                         update
                     """
                 }
