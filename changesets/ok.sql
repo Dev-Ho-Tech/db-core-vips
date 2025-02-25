@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset lnavarrete:20250224_081511 runOnChange:true stripComments:false
+--changeset lnavarrete:20250224_081512 runOnChange:true stripComments:false
 --comment: create_table_t_incoming_mastercard
 
 create sequence s_control_dispute_file_id_seq
