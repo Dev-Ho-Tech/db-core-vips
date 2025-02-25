@@ -3,12 +3,12 @@
 --changeset lnavarrete:20250224_081512 runOnChange:true stripComments:false
 --comment: create_table_t_incoming_mastercard
 
-create sequence s_control_dispute_file_id_seq
+create sequence s_control_dispute_file_2_id_seq
     as integer;
 
-create table t_control_disputes_files
+create table t_control_disputes_files_2
 (
-    control_dispute_file_id integer default nextval('s_control_dispute_file_id_seq'::regclass) not null,
+    control_dispute_file_id integer default nextval('s_control_dispute_file_2_id_seq'::regclass) not null,
     bucket_name varchar(100) not null,
     file_source_name varchar(100) not null,
     file_target_name varchar(100) not null,
